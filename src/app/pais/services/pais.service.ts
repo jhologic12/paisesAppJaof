@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Country } from '../interfaces/pais.interface';
@@ -9,6 +9,11 @@ import { Country } from '../interfaces/pais.interface';
 export class PaisService {
 
   private apiUrl : string = 'https://restcountries.com/v3.1';
+
+
+  get httpParams () {
+    return new HttpParams().set ('fields' , 'name,capital,cca2,flags,population' );
+  }
   
   constructor(private http: HttpClient) { }
 
@@ -20,7 +25,7 @@ export class PaisService {
     const url = `${this.apiUrl}/name/${ criterio }`;
 
     
-    return this.http.get<Country[]>(url);
+    return this.http.get<Country[]>(url , {params: this.httpParams});
 
   }
  
@@ -28,7 +33,7 @@ export class PaisService {
 
     
     const url = `${this.apiUrl}/capital/${criterio}`;
-    return this.http.get<Country[]>(url);
+    return this.http.get<Country[]>(url , {params:this.httpParams});
 
   }
 
@@ -40,5 +45,10 @@ export class PaisService {
 
   }
 
+
+  buscarRegion ( region: string ) : Observable<Country[]>{
+    const url = `${this.apiUrl}/region/${region}`;
+    return this.http.get<Country[]>(url , {params:this.httpParams});
+  }
 
 }

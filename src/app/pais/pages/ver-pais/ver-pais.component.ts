@@ -11,7 +11,7 @@ import { Country } from '../../interfaces/pais.interface';
 })
 export class VerPaisComponent  implements OnInit{
   
-  pais!: Country;
+  pais!: Country ;
 
   constructor(
     private activedRoute: ActivatedRoute,
@@ -21,35 +21,34 @@ export class VerPaisComponent  implements OnInit{
   ngOnInit(): void {
 
 
-    // this.activedRoute.params
-    // .pipe(
-    //   switchMap( ({id})  => this.paisService.getPaisPorAlpha( id)),
-    //   tap (console.log)
 
-    // )
-    // .subscribe( pais => {
-    //   return this.pais = pais;
-    // } );
+   
 
+    this.activedRoute.params
+    .pipe(
+      switchMap( ({ id }) => this.paisService.getPaisPorAlpha( id )  ),
+      tap( console.log )
+    )
+    .subscribe( pais => this.pais = pais[0] );
 
 
 
 //Esta es una manera de realizar el obtener el id de la ruta y enviarlo a el metodo getPaisPorAlpha
-    this.activedRoute.params
-    .subscribe( ({id})=> {
-      console.log(id);
+    // this.activedRoute.params
+    // .subscribe( ({id})=> {
+    //   console.log(id);
 
-      this.paisService.getPaisPorAlpha(id)
-      .subscribe ( pais => {
-        console.log( pais);
-         this.pais = pais;
+    //   this.paisService.getPaisPorAlpha(id)
+    //   .subscribe ( pais => {
+    //     console.log( pais);
+    //      this.pais = pais;
 
-         console.log(this.pais);
+    //      console.log(this.pais);
 
-         return this.pais;
-      }
-        )
-    })
+    //      return this.pais;
+    //   }
+    //     )
+    // })
 
 
 
